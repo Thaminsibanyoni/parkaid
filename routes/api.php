@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ use App\Http\Controllers\ReviewController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
@@ -59,3 +58,7 @@ Route::post('/reviews', [ReviewController::class, 'store']);
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 Route::put('/reviews/{id}', [ReviewController::class, 'update']);
 Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
