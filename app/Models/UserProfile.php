@@ -42,4 +42,20 @@ class UserProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getProfilePictureUrlAttribute()
+    {
+        if ($this->profile_picture) {
+            return asset('storage/' . $this->profile_picture);
+        }
+        return asset('images/default-profile.png');
+    }
+
+    public function getIdDocumentUrlAttribute()
+    {
+        if ($this->id_document) {
+            return asset('storage/' . $this->id_document);
+        }
+        return null;
+    }
 }

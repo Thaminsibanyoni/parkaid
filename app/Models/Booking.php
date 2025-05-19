@@ -76,4 +76,55 @@ class Booking extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function getDurationAttribute()
+    {
+        return $this->start_datetime->diffInHours($this->end_datetime);
+    }
+
+    public function getFormattedStartAttribute()
+    {
+        return $this->start_datetime->format('D, M j, Y g:i A');
+    }
+
+    public function getFormattedEndAttribute()
+    {
+        return $this->end_datetime->format('D, M j, Y g:i A');
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return 'R' . number_format($this->total_price, 2);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    public function scopeConfirmed($query)
+    {
+        return $query->where('status', 'confirmed');
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 'completed');
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', 'cancelled');
+    }
+
+    public function scopeUpcoming($query)
+    {
+        return $query->where('start_datetime', '>=', now())
+                    ->where('status', 'confirmed');
+    }
+
+    public function scopePast($query)
+    {
+        return $query->where('end_datetime', '<', now());
+    }
 }

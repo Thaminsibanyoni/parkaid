@@ -41,4 +41,20 @@ class ParkingSpaceAvailability extends Model
     {
         return $this->belongsTo(ParkingSpace::class);
     }
+
+    public function getDayNameAttribute()
+    {
+        $days = [
+            'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+            'Thursday', 'Friday', 'Saturday'
+        ];
+
+        return $days[$this->day_of_week];
+    }
+
+    public function getFormattedTimeRangeAttribute()
+    {
+        return date('h:i A', strtotime($this->start_time)) . ' - ' .
+               date('h:i A', strtotime($this->end_time));
+    }
 }

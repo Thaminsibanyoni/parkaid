@@ -39,4 +39,14 @@ class Payment extends Model
     {
         return $this->belongsTo(Booking::class);
     }
+
+    public function getFormattedAmountAttribute()
+    {
+        return 'R' . number_format($this->amount, 2);
+    }
+
+    public function isComplete()
+    {
+        return $this->status === 'completed';
+    }
 }

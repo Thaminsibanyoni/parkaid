@@ -55,4 +55,9 @@ class Message extends Model
     {
         return $this->belongsTo(Booking::class);
     }
+
+    public function scopeUnread($query)
+    {
+        return $query->where('read', false);
+    }
 }

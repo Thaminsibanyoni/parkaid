@@ -9,9 +9,19 @@ class ParkingSpaceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $parkingSpaces = ParkingSpace::all();
+        $query = ParkingSpace::query();
+
+        if ($request->has('city')) {
+            $query->where('city', $request->city);
+        }
+
+        if ($request->has('vehicle_type')) {
+            $query->where('vehicle_type', $request->vehicle_type);
+        }
+
+        $parkingSpaces = $query->get();
 
         return response()->json($parkingSpaces);
     }
@@ -66,6 +76,8 @@ class ParkingSpaceController extends Controller
     public function show(string $id)
     {
         $parkingSpace = ParkingSpace::findOrFail($id);
+
+        $parkingSpace->load('images', 'availability');
 
         return response()->json($parkingSpace);
     }

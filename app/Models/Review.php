@@ -35,22 +35,30 @@ class Review extends Model
      */
     public function booking(): BelongsTo
     {
+    {
         return $this->belongsTo(Booking::class);
     }
 
-    /**
-     * Get the user that created the review through the booking.
-     */
-    public function user(): BelongsTo
+    public function getRenterAttribute()
     {
-        return $this->belongsTo(User::class)->through('booking');
+        return $this->booking->user;
     }
 
-    /**
-     * Get the parking space that was reviewed through the booking.
-     */
-    public function parkingSpace(): BelongsTo
+    public function getHostAttribute()
     {
-        return $this->belongsTo(ParkingSpace::class)->through('booking');
+        return $this->booking->parkingSpace->user;
+    }
+
+    public function getStarsHtmlAttribute()
+    {
+        $html = '';
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i <= $this->rating) {
+                $html .= '<i class="fas fa-star"></i>';
+            } else {
+                $html .= '<i class="far fa-star"></i>';
+            }
+        }
+        return $html;
     }
 }

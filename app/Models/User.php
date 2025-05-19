@@ -95,4 +95,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class, 'receiver_id');
     }
+
+    // Helper methods for role checking
+    public function isAdmin()
+    {
+        return $this->role->name === 'admin';
+    }
+
+    public function isHost()
+    {
+        return $this->role->name === 'host';
+    }
+
+    public function isRenter()
+    {
+        return $this->role->name === 'renter';
+    }
 }

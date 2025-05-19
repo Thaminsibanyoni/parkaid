@@ -37,4 +37,9 @@ class ParkingSpaceImage extends Model
     {
         return $this->belongsTo(ParkingSpace::class);
     }
+
+    public function getImageUrlAttribute()
+    {
+        return asset('storage/' . $this->image_path);
+    }
 }

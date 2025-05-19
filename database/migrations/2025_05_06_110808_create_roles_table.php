@@ -16,6 +16,13 @@ return new class extends Migration
             $table->string('name'); // admin, host, renter
             $table->timestamps();
         });
+
+        // Insert default roles
+        DB::table('roles')->insert([
+            ['name' => 'admin', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'host', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'renter', 'created_at' => now(), 'updated_at' => now()]
+        ]);
     }
 
     /**

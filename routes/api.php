@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user']);
+
+Route::get('/parking-spaces/search', [ParkingSpaceController::class, 'search']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
@@ -59,6 +62,8 @@ Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 Route::put('/reviews/{id}', [ReviewController::class, 'update']);
 Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
-Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'show']);
+Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'update']);

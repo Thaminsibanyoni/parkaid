@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('parking_spaces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // the host
+            $table->foreignId('user_id')->constrained(); // The host
             $table->string('name');
             $table->text('description');
             $table->string('address');
             $table->string('city');
             $table->string('province');
-            $table->string('postal_code');
-            $table->decimal('latitude', 10, 7);
-            $table->decimal('longitude', 10, 7);
+            $table->string('postal_code')->nullable();
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             $table->string('vehicle_type'); // car, bike, truck
             $table->decimal('price_per_hour', 10, 2);
             $table->decimal('price_per_day', 10, 2)->nullable();
