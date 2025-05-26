@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ParkingSpace;
 use Illuminate\Http\Request;
 
 class ParkingSpaceController extends Controller
@@ -138,5 +139,29 @@ class ParkingSpaceController extends Controller
         $parkingSpace->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function search(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'radius' => 'nullable|numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+        $radius = $request->input('radius', 10); // Default radius of 10 km
+
+        $parkingSpaces = ParkingSpace::selectRaw("*, ( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance", [$latitude, $longitude, $latitude])
+            ->having("distance", "<=", $radius)
+            ->orderBy("distance")
+            ->get();
+
+        return response()->json($parkingSpaces, 200);
     }
 }

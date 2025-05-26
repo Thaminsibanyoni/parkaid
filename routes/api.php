@@ -62,6 +62,8 @@ Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 Route::put('/reviews/{id}', [ReviewController::class, 'update']);
 Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
+Route::get('/parking-spaces/search', [ParkingSpaceController::class, 'search']);
+
 Route::post('/auth/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
