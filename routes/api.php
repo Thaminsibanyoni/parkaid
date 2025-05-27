@@ -10,6 +10,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,3 +70,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'show']);
 Route::middleware('auth:sanctum')->post('/profile', [ProfileController::class, 'update']);
+
+Route::middleware('auth:sanctum')->post('/ai/message', [AiController::class, 'sendMessage']);
+
+Route::post('/ai/chat', [\App\Http\Controllers\AiController::class, 'chat']);

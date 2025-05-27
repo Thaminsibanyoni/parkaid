@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('ai_conversations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('message');
-            $table->boolean('is_user');
+            $table->text('response')->nullable();
+            $table->boolean('is_user')->default(true);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
